@@ -55,7 +55,7 @@ with open(csv_file_name, mode='w', newline='') as csv_file:
     # Initialize a counter for the image names
     counter = 1
     writer = csv.writer(csv_file)
-    writer.writerow(['filename', 'class'])
+    writer.writerow(['filename', 'class', 'r_mode', 'g_mode', 'b_mode'])
     num_images = len(os.listdir(folder_path))
 
     # Loop through all the files in the folder
@@ -95,7 +95,7 @@ with open(csv_file_name, mode='w', newline='') as csv_file:
             image.save(new_image_path)
 
             # Write the filename and class to the CSV file
-            writer.writerow([new_image_path, cl])
+            writer.writerow([new_image_path, cl, r_mode, g_mode, b_mode])
 
             # Increment the counter
             counter += 1
