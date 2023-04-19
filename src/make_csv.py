@@ -5,6 +5,7 @@ import numpy as np
 from scipy import stats
 import random
 import time
+from helpers import euclidian_distance, get_point
 
 # Define the path to the folder containing the images
 folder_path = "../images/og_ss"
@@ -24,14 +25,6 @@ DARK_BROWN = (47, 23, 3)
 
 # Define the name of the CSV file to be created
 csv_file_name = "../data/image_data.csv"
-
-
-def euclidian_distance(point1, point2):
-    """Calculates the euclidian distance between two points"""
-    distance = 0
-    for i in range(len(point1)):
-        distance += (point1[i] - point2[i]) ** 2
-    return distance ** 0.5
 
 
 def classify(point):
@@ -80,22 +73,17 @@ with open(csv_file_name, mode='w', newline='') as csv_file:
             # Save the cropped image with a new filename
             new_filename = f"img_{counter}.png"
 
-            img_array = np.array(image).round().astype(int)
-
-            # Calculate the mean and median values for each color channel
-            r_mode = np.mean(img_array[:, :, 0])
-            g_mode = np.mean(img_array[:, :, 1])
-            b_mode = np.mean(img_array[:, :, 2])
+            point = get_point(image)
 
             ###### WILL NEED TO CHANGE THIS TO THE PATH OF THE FOLDER CONTAINING THE IMAGES ######
             new_image_path = os.path.join('../images/renamed', new_filename)
 
-            cl = classify((r_mode, g_mode, b_mode))
+            cl = classify(point)
 
             image.save(new_image_path)
 
             # Write the filename and class to the CSV file
-            writer.writerow([new_image_path, cl, r_mode, g_mode, b_mode])
+            writer.writerow([new_image_path, cl, point[0], point[1], point[2]])
 
             # Increment the counter
             counter += 1
