@@ -18,29 +18,35 @@ def knn(csv_file_name, test_point, k):
 
     # Remove the header row
     data.pop(0)
+    # print(data)
+    dists = []
 
     # Calculate the distance from the test point to each point in the data
     for point in data:
         num_point = [float(point[2]), float(point[3]), float(point[4])]
-        point.append(euclidian_distance(test_point, num_point))
+        dists.append(
+            {'label': point[1], 'dist': euclidian_distance(test_point, num_point)})
 
     # Sort the data by distance (smallest to largest)
-    data.sort(key=lambda x: x[3])
+    dists = sorted(dists, key=lambda x: x['dist'])
 
     # Get the k nearest neighbors
-    neighbors = data[:k]
+    neighbors = dists[:k]
+    print(neighbors)
 
     # Count the number of each type of neighbor
     light = 0
     grey = 0
     dark = 0
     for neighbor in neighbors:
-        if neighbor[1] == 'light':
+        if neighbor['label'] == 'light':
             light += 1
-        elif neighbor[1] == 'grey':
+        elif neighbor['label'] == 'grey':
             grey += 1
         else:
             dark += 1
+
+    # print(light, grey, dark)
 
     # Return the most common type of neighbor
     if light > grey and light > dark:
@@ -61,7 +67,7 @@ def main():
             image = Image.open(image_path)
             test_point = get_point(image)
             print(test_point)
-            res = knn("../data/image_data.csv", test_point, 5)
+            res = knn("../data/image_data.csv", test_point, 10)
             # Add the image and res to a grid
             axs[i].imshow(np.array(image))
             axs[i].axis("off")
