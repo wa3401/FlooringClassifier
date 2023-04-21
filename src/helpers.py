@@ -13,8 +13,8 @@ def get_point(image):
 
     img_array = np.array(image).round().astype(int)
 
-    r_mode = np.mean(img_array[:, :, 0])
-    g_mode = np.mean(img_array[:, :, 1])
-    b_mode = np.mean(img_array[:, :, 2])
+    r_mean = np.mean(img_array[:, :, 0])
+    g_mean = np.mean(img_array[:, :, 1])
+    b_mean = np.mean(img_array[:, :, 2])
 
-    return [r_mode, g_mode, b_mode]
+    return [r_mean, g_mean, b_mean]

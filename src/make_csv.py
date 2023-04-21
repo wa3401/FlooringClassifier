@@ -10,18 +10,33 @@ from helpers import euclidian_distance, get_point
 # Define the path to the folder containing the images
 folder_path = "../images/og_ss"
 
+classes_folder = "../images/classes"
+
 # Define the dimensions for the cropped images
 crop_width = 250
 crop_height = 250
 
-# b9752b
-LIGHT_BROWN = (185, 75, 43)
 
-# 85715c
-GREY = (85, 71, 92)
+def get_classes(path):
+    classes = {}
+    for filename in os.listdir(path):
+        if filename.endswith(".png") or filename.endswith(".jpg"):
+            image_path = os.path.join(path, filename)
+            class_name = filename.split(".")[0]
+            image = Image.open(image_path)
 
-# 472303
-DARK_BROWN = (47, 23, 3)
+            # Crop the image
+            width, height = image.size
+            left = (width - crop_width) / 2
+            top = (height - crop_height) / 2
+            right = (width + crop_width) / 2
+            bottom = (height + crop_height) / 2
+            image = image.crop((left, top, right, bottom))
+
+            means = get_point(image)
+            classes[class_name] = means
+    return classes
+
 
 # Define the name of the CSV file to be created
 csv_file_name = "../data/image_data.csv"
@@ -29,18 +44,11 @@ csv_file_name = "../data/image_data.csv"
 
 def classify(point):
     """Classifies a point as either light, medium, or dark"""
-    # Calculate the distance to each color
-    light_distance = euclidian_distance(point, LIGHT_BROWN)
-    grey_distance = euclidian_distance(point, GREY)
-    dark_distance = euclidian_distance(point, DARK_BROWN)
-
-    # Return the color with the shortest distance
-    if light_distance < grey_distance and light_distance < dark_distance:
-        return 'light'
-    elif grey_distance < light_distance and grey_distance < dark_distance:
-        return 'grey'
-    else:
-        return 'dark'
+    dists = {}
+    classes = get_classes(classes_folder)
+    for class_name, class_point in classes.items():
+        dists[class_name] = euclidian_distance(point, class_point)
+    return min(dists, key=dists.get)
 
 
 # Open the CSV file for writing and write the header row
