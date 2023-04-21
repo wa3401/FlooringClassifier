@@ -25,13 +25,8 @@ def get_classes(path):
             class_name = filename.split(".")[0]
             image = Image.open(image_path)
 
-            # Crop the image
-            width, height = image.size
-            left = (width - crop_width) / 2
-            top = (height - crop_height) / 2
-            right = (width + crop_width) / 2
-            bottom = (height + crop_height) / 2
-            image = image.crop((left, top, right, bottom))
+            # Resize the image
+            image = image.resize((crop_width, crop_height))
 
             means = get_point(image)
             classes[class_name] = means
@@ -63,20 +58,15 @@ with open(csv_file_name, mode='w', newline='') as csv_file:
     for filename in os.listdir(folder_path):
         if filename.endswith(".png") or filename.endswith(".jpg"):
 
-            if counter % 25 == 0:
+            if counter % 10 == 0:
                 print("Loading: " + str(counter) + "/" + str(num_images))
 
             # Open the image file
             image_path = os.path.join(folder_path, filename)
             image = Image.open(image_path)
 
-            # Crop the image
-            width, height = image.size
-            left = (width - crop_width) / 2
-            top = (height - crop_height) / 2
-            right = (width + crop_width) / 2
-            bottom = (height + crop_height) / 2
-            image = image.crop((left, top, right, bottom))
+            # Resize the image
+            image = image.resize((crop_width, crop_height))
 
             # Save the cropped image with a new filename
             new_filename = f"img_{counter}.png"
