@@ -9,6 +9,9 @@
 3. Run `python3 knn.py` to run the KNN algorithm
     - This will take a little while, you should see progress in the terminal
     - Outputs the accuracy of the algorithm
+    
+### K-Means
+You can open and run `k_means.ipynb` to show the clustering of images by relative floor color
 
 
 ### Classifications
