@@ -12,26 +12,6 @@
 
 
 ### Classifications
-<style>
-  .image-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .image-grid img {
-    width: 250px;
-    height: auto;
-    display: block;
-  }
-
-  .image-name {
-    text-align: left;
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 5px;
-  }
-</style>
 
 <div class="image-grid">
     <div>
@@ -83,4 +63,25 @@
         <div class="image-name">Organic Hardwood</div>
     </div>
 </div>
+
+<style>
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+  }
+  
+  .image-grid img {
+    width: 250px;
+    height: auto;
+    display: block;
+  }
+
+  .image-name {
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+</style>
 
